@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>GitFilter options</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main>
+      <h1>GitFilter</h1>
+      <p class="muted">Filters for GitHub pull request “Files changed” pages. Changes save automatically.</p>
+
+      <section>
+        <h2>Presets</h2>
+        <p class="muted">Each preset hides a group of files on every repository.</p>
+        <div id="presets" class="presets"></div>
+      </section>
+
+      <section>
+        <h2>Global rules</h2>
+        <p class="muted">
+          One rule per line, applied to every repository. Last matching line wins.<br />
+          <code>*.spec.*</code> matches a file name anywhere · <code>src/gen/**</code> matches from the repository root ·
+          <code>docs/</code> matches a directory · <code>!keep.spec.ts</code> shows a file again ·
+          <code>re:^api/.*\.json$</code> is a regular expression · <code>#</code> starts a comment.
+        </p>
+        <textarea id="globalRules" rows="8" spellcheck="false"></textarea>
+        <div id="globalRulesStatus" class="status"></div>
+      </section>
+
+      <section>
+        <h2>Repository rules</h2>
+        <p class="muted">Edit these from the GitFilter panel on a pull request. Saved repositories:</p>
+        <ul id="repoRules" class="repo-rules"></ul>
+      </section>
+
+      <section>
+        <h2>Jev low-interest suggestions</h2>
+        <p class="muted">
+          <a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noreferrer">Jev</a> is TypeSafe’s
+          decision model. When you click “Analyze” on a pull request, GitFilter asks Jev to classify each changed
+          file and suggests hiding the ones that need little review attention. Nothing is hidden until you accept a
+          suggestion.
+        </p>
+        <label class="check"><input type="checkbox" id="jevEnabled" /> Enable Jev suggestions</label>
+
+        <fieldset id="jevFields">
+          <div class="notice">
+            <strong>What is sent to TypeSafe:</strong> for each analyzed file, the pull request title, the file
+            path, its change type and line counts, and up to 3,000 characters of its diff. Requests go from this
+            browser directly to <code>api.typesafe.ai</code> with your API key and are billed to your TypeSafe
+            account.
+            <label class="check"><input type="checkbox" id="jevConsented" /> I understand and agree to send this data</label>
+            <label class="check"><input type="checkbox" id="jevAllowPrivate" /> Also allow private repositories</label>
+          </div>
+
+          <label class="field">
+            TypeSafe API key
+            <span class="row">
+              <input type="password" id="jevApiKey" autocomplete="off" spellcheck="false" placeholder="ts-…" />
+              <button type="button" id="jevTest">Test key</button>
+            </span>
+            <span class="muted">Stored only on this device (not synced). Get one at
+              <a href="https://console.typesafe.ai/keys" target="_blank" rel="noreferrer">console.typesafe.ai</a>.</span>
+            <span id="jevTestStatus" class="status"></span>
+          </label>
+
+          <label class="field">
+            Suggest files whose review attention is below
+            <span class="row">
+              <input type="range" id="jevThreshold" min="0" max="2" step="0.05" />
+              <output id="jevThresholdValue"></output>
+            </span>
+            <span class="muted">Jev rates attention from 0 (lockfile, generated) through 1 (trivial) and 2 (ordinary) to 3 (careful review).
+              Lockfiles, generated code, binary assets and confident mechanical changes are suggested whenever attention stays below 1.5.</span>
+          </label>
+
+          <div class="field">
+            Also suggest these kinds of files (when attention is below 1.5)
+            <div id="jevRoles" class="roles"></div>
+          </div>
+        </fieldset>
+      </section>
+      <div id="saveError" class="status error"></div>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "git-review-filter",
+  "version": "0.1.0",
+  "description": "Chrome extension that adds file filtering to GitHub pull request reviews.",
+  "license": "MIT",
+  "author": "Leonardo Cascianelli",
+  "homepage": "https://github.com/H3xept/git-review-filter#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/H3xept/git-review-filter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/H3xept/git-review-filter/issues"
+  },
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun run scripts/build.ts",
+    "watch": "bun run scripts/build.ts --watch",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.3",
+    "@types/chrome": "^0.3.5",
+    "typescript": "^7.0.2"
+  }
+}

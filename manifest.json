@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "GitFilter",
+  "version": "0.1.0",
+  "description": "Advanced file filters for GitHub pull request reviews, with optional Jev low-interest file suggestions.",
+  "minimum_chrome_version": "120",
+  "homepage_url": "https://github.com/H3xept/git-review-filter",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://github.com/*",
+    "https://patch-diff.githubusercontent.com/*",
+    "https://api.typesafe.ai/*"
+  ],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_ui": { "page": "options.html", "open_in_tab": true },
+  "action": { "default_title": "GitFilter options" },
+  "icons": { "16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png" }
+}
