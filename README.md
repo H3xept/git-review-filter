@@ -3,6 +3,8 @@
 A Chrome extension that adds file filtering to GitHub pull request “Files changed” pages, with optional
 [Jev](https://docs.typesafe.ai/introduction) suggestions for low-interest files.
 
+![GitFilter on a pull request's Files changed tab: a preset, a file type chip and a header button hide files, Jev labels the rest, and the panel lists every hidden file with its reason](docs/demo.gif)
+
 ## Features
 
 - **Rules** (gitignore-style, last matching line wins), per repository or global:
