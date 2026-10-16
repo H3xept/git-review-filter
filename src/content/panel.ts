@@ -231,7 +231,13 @@ export class Panel {
   }
 
   private renderHidden(v: PanelView, hidden: readonly string[]): HTMLElement {
-    const details = h("details", { open: this.hiddenOpen, ontoggle: () => ((this.hiddenOpen = details.open), this.update(this.view!)) });
+    // Creating the element with `open` set also fires "toggle"; re-rendering on that event would loop every frame.
+    const ontoggle = () => {
+      if (details.open === this.hiddenOpen) return;
+      this.hiddenOpen = details.open;
+      this.update(this.view!);
+    };
+    const details = h("details", { open: this.hiddenOpen, ontoggle });
     details.append(h("summary", {}, "Hidden files ", h("span", { class: "count" }, String(hidden.length))));
     if (!this.hiddenOpen) return details;
     if (hidden.length === 0) {
